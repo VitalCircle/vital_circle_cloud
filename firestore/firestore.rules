@@ -8,6 +8,11 @@ service cloud.firestore {
     function isSelf(userId) {
       return request.auth.uid == userId;
     }
+
+		// so the app doesn't crash before I take it out
+		match /test/{id} {
+    	allow read;
+    }
     
     match /users/{id}/{document=**} {
     	allow read, write: if isAuthenticated() && isSelf(id);
