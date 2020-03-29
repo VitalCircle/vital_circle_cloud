@@ -42,17 +42,38 @@
 					"timestamp": "2-7-2020 02:35PM"
 				}
 			],
-			// sub-collection
+      // sub-collection
 			"encounters": [
 				{
-					"entry": "2-5-2020 02:35PM",
-					"exit": "2-5-2020 02:36PM",
 					"lat": 0,
 					"long": 0,
+          "timestamp": "2-7-2020 02:35PM",
 					"uid": "<user-2>"
 				}
-			]
-	}
+			],
+      // sub-collection
+      "locations": [
+        {
+          "lat": 0,
+          "long": 0,
+          "timestamp": "2-7-2020 02:35PM"
+        }
+      ]
+  },
+  "locations": {
+    "<loc-id>": {
+      "name": "Food Lion",
+      // sub-collection
+			"encounters": [
+				{
+					"lat": 0,
+					"long": 0,
+          "timestamp": "2-7-2020 02:35PM",
+					"uid": "<user-1>"
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -71,6 +92,7 @@
 | `history`                   | Map            | Personal medical history.                                                     |
 | `healthRecords`             | sub-collection | Daily healthcare metrics provided by the user.                                |
 | `encounters`                | sub-collection | Tracked encounters between the user and another user.                         |
+| `locations`                 | sub-collection | Tracked GPS movement.                                                         |
 
 ### History
 
@@ -94,25 +116,25 @@ This is a map on the User object. It is a record of the user's health history wh
 **ID:** Random health record id. _Could possibly use the day._
 Daily health record input by the user.
 
-| Property            | Type    | Description      |
-| ------------------- | ------- | ---------------- |
-| `chills`            | boolean |                  |
-| `cough`             | boolean |                  |
-| `diarrhea`          | boolean |                  |
-| `febrile`           | boolean |                  |
-| `hasCovid`          | boolean |                  |
-| `hasFlu`            | boolean |                  |
-| `headaches`         | boolean |                  |
-| `malaise`           | boolean | Tired or weak.   |
-| `myalgias`          | boolean | Aches and pains. |
-| `nausea`            | boolean |                  |
-| `runnyOrStuffyNose` | boolean |                  |
-| `shortnessOfBreath` | boolean |                  |
-| `sneezing`          | boolean |                  |
-| `soreThroat`        | boolean |                  |
-| `subjectiveFever`   | boolean |                  |
-| `temp`              | boolean |                  |
-| `timestamp`         | boolean |                  |
+| Property            | Type      | Description      |
+| ------------------- | --------- | ---------------- |
+| `chills`            | boolean   |                  |
+| `cough`             | boolean   |                  |
+| `diarrhea`          | boolean   |                  |
+| `febrile`           | boolean   |                  |
+| `hasCovid`          | boolean   |                  |
+| `hasFlu`            | boolean   |                  |
+| `headaches`         | boolean   |                  |
+| `malaise`           | boolean   | Tired or weak.   |
+| `myalgias`          | boolean   | Aches and pains. |
+| `nausea`            | boolean   |                  |
+| `runnyOrStuffyNose` | boolean   |                  |
+| `shortnessOfBreath` | boolean   |                  |
+| `sneezing`          | boolean   |                  |
+| `soreThroat`        | boolean   |                  |
+| `subjectiveFever`   | boolean   |                  |
+| `temp`              | boolean   |                  |
+| `timestamp`         | timestamp |                  |
 
 ### Encounter
 
@@ -127,3 +149,15 @@ Tracks when another user enters and exits a certain proximity of the user.
 | `lat`    | boolean   | Latitude upon entry.  |
 | `long`   | boolean   | Longitude upon entry. |
 | `uid`    | boolean   | Id of the other user. |
+
+### Locations
+
+**Collection:** `/users/{userId}/locations/{id}`<br />
+**ID:** Random id.
+Tracks a user's GPS movement.
+
+| Property    | Type      | Description           |
+| ----------- | --------- | --------------------- |
+| `lat`       | boolean   | Latitude upon entry.  |
+| `long`      | boolean   | Longitude upon entry. |
+| `timestamp` | timestamp |                       |
