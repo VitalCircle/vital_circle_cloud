@@ -6,6 +6,12 @@
 {
 	"users": {
 		"<uid>": {
+      "agreements": {
+        "consent": "2-7-2020 02:35PM",
+        "locationSharing": "2-7-2020 02:35PM",
+        "privacy": "2-7-2020 02:35PM",
+        "termsOfService": "2-7-2020 02:35PM",
+      },
 			"healthScore": 30,
 			"healthResponsibilityScore": 99,
 			"socialDistancingScore": 56,
@@ -65,12 +71,24 @@
 
 | Property                    | Type           | Description                                                                   |
 | --------------------------- | -------------- | ----------------------------------------------------------------------------- |
+| `agreements`                | Map            | Tracks user agreements.                                                       |
 | `healthScore`               | number         | Aggregate health score                                                        |
 | `healthResponsibilityScore` | number         | How responsible has the individual been with tracking their health?           |
 | `socialDistancingScore`     | number         | How responsible has the individual been with practicing social distancing? () |
 | `history`                   | Map            | Personal medical history.                                                     |
 | `healthRecords`             | sub-collection | Daily healthcare metrics provided by the user.                                |
 | `encounters`                | sub-collection | Tracked encounters between the user and another user.                         |
+
+### Agreements
+
+This is a map on the User object. It is the record of the user's agreement to the various terms related to using the app.
+
+| Property          | Type      | Description                                            |
+| ----------------- | --------- | ------------------------------------------------------ |
+| `consent`         | timestamp | When the user accepted the consent agreement.          |
+| `locationSharing` | timestamp | When the user accepted the location sharing agreement. |
+| `privacy`         | timestamp | When the user accepted the privacy agreement.          |
+| `termsOfService`  | timestamp | When the user accepted the terms of service agreement. |
 
 ### History
 
