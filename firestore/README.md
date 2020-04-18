@@ -4,55 +4,63 @@
 
 ```json
 {
-	"users": {
-		"<uid>": {
-			"healthScore": 30,
-			"healthResponsibilityScore": 99,
-			"socialDistancingScore": 56,
-			"history": {
-				"birthYear": 1578,
-				"hasAsthma": true,
-				"hasCOPD": true,
-				"hasDiabetes": true,
-				"hasHypertension": true,
-				"hasHeartDisease": true,
-				"hasSeasonalAllergies": true,
-				"isImmunocompromised": true,
-				"isSmoker": true
-			},
-			// sub-collection
-			"healthRecords": [
-				{
-					"chills": true,
-					"cough": true,
-					"diarrhea": true,
-					"febrile": true,
-					"hasCovid": true,
-					"hasFlu": true,
-					"headaches": true,
-					"malaise": true,
-					"myalgias": true,
-					"nausea": true,
-					"runnyOrStuffyNose": true,
-					"shortnessOfBreath": true,
-					"sneezing": true,
-					"soreThroat": true,
-					"subjectiveFever": true,
-					"temp": 99,
-					"timestamp": "2-7-2020 02:35PM"
-				}
-			],
-			// sub-collection
-			"encounters": [
-				{
-					"entry": "2-5-2020 02:35PM",
-					"exit": "2-5-2020 02:36PM",
-					"lat": 0,
-					"long": 0,
-					"uid": "<user-2>"
-				}
-			]
-	}
+  "users": {
+    "<uid>": {
+      "agreements": {
+        "acceptedLocationSharing": true,
+        "locationSharingDate": "2-7-2020 02:35PM",
+        "privacyPolicyDate": "2-7-2020 02:35PM",
+        "termsOfServiceDate": "2-7-2020 02:35PM",
+      },
+      "healthScore": 30,
+      "healthResponsibilityScore": 99,
+      "socialDistancingScore": 56,
+      "history": {
+        "birthYear": 1578,
+        "hasAsthma": true,
+        "hasCOPD": true,
+        "hasDiabetes": true,
+        "hasHypertension": true,
+        "hasHeartDisease": true,
+        "hasSeasonalAllergies": true,
+        "isImmunocompromised": true,
+        "isSmoker": true
+      },
+      // sub-collection
+      "checkins": {
+        "YYYY-MM-DD": {
+          "feeling": "",
+          "temp": 0,
+          "subjectiveTemp": "",
+          "symptoms": {
+            "bodyAches": 0,
+            "cough": 0,
+            "diarrhea": 0,
+            "febrile": 0,
+            "feelingIll": 0,
+            "headache": 0,
+            "nauseaVomiting": 0,
+            "oddTaste": 0,
+            "oddSmell": 0,
+            "runnyNose": 0,
+            "shortnessOfBreath": 0,
+            "sneezing": 0,
+            "soreThroat": 0
+          },
+          "timestamp": "" // timestamp
+        }
+      },
+      // sub-collection
+      "encounters": [
+        {
+          "entry": "2-5-2020 02:35PM",
+          "exit": "2-5-2020 02:36PM",
+          "lat": 0,
+          "long": 0,
+          "uid": "<user-2>"
+        }
+      ]
+  }
 }
 ```
 
@@ -65,12 +73,24 @@
 
 | Property                    | Type           | Description                                                                   |
 | --------------------------- | -------------- | ----------------------------------------------------------------------------- |
+| `agreements`                | Map            | Record of their acceptance of agreements.                                     |
 | `healthScore`               | number         | Aggregate health score                                                        |
 | `healthResponsibilityScore` | number         | How responsible has the individual been with tracking their health?           |
 | `socialDistancingScore`     | number         | How responsible has the individual been with practicing social distancing? () |
 | `history`                   | Map            | Personal medical history.                                                     |
-| `healthRecords`             | sub-collection | Daily healthcare metrics provided by the user.                                |
+| `checkins`                  | sub-collection | Daily healthcare metrics provided by the user.                                |
 | `encounters`                | sub-collection | Tracked encounters between the user and another user.                         |
+
+### Agreements
+
+This is a map on the User object. It is a record of the user's acceptance of agreements.
+
+| Property                  | Type      | Description                                            |
+| ------------------------- | --------- | ------------------------------------------------------ |
+| `acceptedLocationSharing` | bool      | Have they responded to the location sharing agreement? |
+| `locationSharingDate`     | Timestamp | When they accepted the location sharing agreement.     |
+| `privacyPolicyDate`       | Timestamp | When they accepted the privacy policy agreement.       |
+| `termsOfServiceDate`      | Timestamp | When the accepted the terms of service agreement.      |
 
 ### History
 
@@ -88,31 +108,39 @@ This is a map on the User object. It is a record of the user's health history wh
 | `isImmunocompromised`  | boolean |                                             |
 | `isSmoker`             | boolean |                                             |
 
-### Health Records
+### Checkin
 
-**Collection:** `/users/{userId}/healthRecords/{id}`<br />
-**ID:** Random health record id. _Could possibly use the day._
+**Collection:** `/users/{userId}/checkins/{id}`<br />
+**ID:** Date of the checkin in the format of `YYYY-MM-DD`. There is only one per day and this lets us directly get the checkin for the given day.
 Daily health record input by the user.
 
-| Property            | Type    | Description      |
-| ------------------- | ------- | ---------------- |
-| `chills`            | boolean |                  |
-| `cough`             | boolean |                  |
-| `diarrhea`          | boolean |                  |
-| `febrile`           | boolean |                  |
-| `hasCovid`          | boolean |                  |
-| `hasFlu`            | boolean |                  |
-| `headaches`         | boolean |                  |
-| `malaise`           | boolean | Tired or weak.   |
-| `myalgias`          | boolean | Aches and pains. |
-| `nausea`            | boolean |                  |
-| `runnyOrStuffyNose` | boolean |                  |
-| `shortnessOfBreath` | boolean |                  |
-| `sneezing`          | boolean |                  |
-| `soreThroat`        | boolean |                  |
-| `subjectiveFever`   | boolean |                  |
-| `temp`              | boolean |                  |
-| `timestamp`         | boolean |                  |
+| Property         | Type      | Description            |
+| ---------------- | --------- | ---------------------- |
+| `feeling`        | string    | worse, similar, better |
+| `temp`           | double    | number                 |
+| `subjectiveTemp` | string    | hot, fine, unsure      |
+| `symptoms`       | Map       |                        |
+| `timestamp`      | Timestamp |                        |
+
+### Symptoms
+
+This is a map on the Checkin object. The number indicates the severity (0 - none, 1 - mile, 2 - moderate, 3 - severe).
+
+| Property            | Type   | Description |
+| ------------------- | ------ | ----------- |
+| `bodyAches`         | number |             |
+| `cough`             | number |             |
+| `diarrhea`          | number |             |
+| `febrile`           | number |             |
+| `feelingIll`        | number |             |
+| `headache`          | number |             |
+| `nauseaVomiting`    | number |             |
+| `oddTaste`          | number |             |
+| `oddSmell`          | number |             |
+| `runnyNose`         | number |             |
+| `shortnessOfBreath` | number |             |
+| `sneezing`          | number |             |
+| `soreThroat`        | number |             |
 
 ### Encounter
 
